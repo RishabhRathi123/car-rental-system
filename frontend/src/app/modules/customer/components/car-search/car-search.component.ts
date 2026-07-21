@@ -45,18 +45,20 @@ export class CarSearchComponent implements OnInit {
   }
 
   getUserLocation(): void {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.searchCars(); // Initial fetch
-      }, err => {
-        alert('Location access denied. Please enable location.');
-      });
-    } else {
-      alert('Geolocation not supported by your browser.');
-    }
+  const fallback = () => {            // center of India
+    this.latitude = 20.5937;
+    this.longitude = 78.9629;
+    this.searchCars();
+  };
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => { this.latitude = pos.coords.latitude; this.longitude = pos.coords.longitude; this.searchCars(); },
+      () => fallback()
+    );
+  } else {
+    fallback();
   }
+}
 
  searchCars(): void {
   if (!this.latitude || !this.longitude) return;

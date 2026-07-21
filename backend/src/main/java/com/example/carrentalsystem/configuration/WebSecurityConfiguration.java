@@ -38,6 +38,7 @@ public class WebSecurityConfiguration {
                         .requestMatchers("/api/payment/**").permitAll()
 
                         .requestMatchers("/api/cars/search-nearby").permitAll() // allow customer access
+                        .requestMatchers("/api/health").permitAll() // keep-alive / uptime probe
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager

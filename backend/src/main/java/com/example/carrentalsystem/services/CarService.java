@@ -32,7 +32,10 @@ public class CarService {
                                                    String brand, String color, String transmission, String type,
                                                    LocalDate startDate, LocalDate endDate, String sortBy) {
 
-        List<Center> nearbyCenters = centerRepository.findCentersNearby(lat, lng, radius);
+        // Filter centers by distance in Java (avoids Postgres acos/radians issues)
+        List<Center> nearbyCenters = centerRepository.findAll().stream()
+                .filter(c -> getDistance(lat, lng, c.getLatitude(), c.getLongitude()) <= radius)
+                .toList();
         List<Long> centerIds = nearbyCenters.stream().map(Center::getId).toList();
 
         List<Car> allMatchingCars = carRepository.searchCars(centerIds, brand, color, transmission, type);

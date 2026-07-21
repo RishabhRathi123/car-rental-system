@@ -38,7 +38,19 @@ public class CarService {
                 .toList();
         List<Long> centerIds = nearbyCenters.stream().map(Center::getId).toList();
 
-        List<Car> allMatchingCars = carRepository.searchCars(centerIds, brand, color, transmission, type);
+        // Filter cars by center + attributes in Java (avoids Postgres errors on
+        // null LIKE params and empty IN () lists that the searchCars JPQL produces).
+        List<Car> allMatchingCars = carRepository.findByDeletedFalse().stream()
+                .filter(car -> car.getCenter() != null && centerIds.contains(car.getCenter().getId()))
+                .filter(car -> brand == null || brand.isBlank()
+                        || (car.getBrand() != null && car.getBrand().toLowerCase().contains(brand.toLowerCase())))
+                .filter(car -> color == null || color.isBlank()
+                        || (car.getColor() != null && car.getColor().toLowerCase().contains(color.toLowerCase())))
+                .filter(car -> transmission == null || transmission.isBlank()
+                        || (car.getTransmission() != null && car.getTransmission().toLowerCase().contains(transmission.toLowerCase())))
+                .filter(car -> type == null || type.isBlank()
+                        || (car.getType() != null && car.getType().toLowerCase().contains(type.toLowerCase())))
+                .toList();
 
         List<CarResponseDto> availableCars = new ArrayList<>();
 

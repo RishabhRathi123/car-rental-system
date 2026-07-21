@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { CustomerService } from '../../service/customer.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 declare var Razorpay: any;
@@ -15,7 +15,8 @@ export class MyBookingsComponent {
 
   constructor(
     private service: CustomerService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private ngZone: NgZone
   ) {
     this.getMyBookings();
   }
@@ -52,7 +53,7 @@ export class MyBookingsComponent {
           description: 'Car Booking Payment',
           order_id: order.id,
           handler: (response: any) => {
-            this.verifyPayment(response, booking.id);
+            this.ngZone.run(() => this.verifyPayment(response, booking.id));
           },
           prefill: {
             name: booking.username,

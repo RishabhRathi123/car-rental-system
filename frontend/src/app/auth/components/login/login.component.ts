@@ -41,8 +41,6 @@ export class LoginComponent implements OnInit {
 
     this.isSpinning = true;
 
-    // 90s timeout so a stuck request surfaces a message instead of spinning
-    // forever (e.g. while a sleeping free-tier backend is waking up).
     this.authService.login(this.loginForm.value)
       .pipe(timeout(90000))
       .subscribe({
@@ -71,11 +69,15 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.isSpinning = false;
-          const msg = (err && err.name === 'TimeoutError')
-            ? 'The server is taking too long to respond (it may be waking up). Please try again in a moment.'
-            : 'Login failed — please check your details or try again shortly.';
+          let msg = 'Login failed. Please try again.';
+          if (err && err.name === 'TimeoutError') {
+            msg = 'The server is taking too long (it may be waking up). Please try again in a moment.';
+          } else if (err && (err.status === 401 || err.status === 403 || err.status === 404 || err.status === 500)) {
+            msg = 'Incorrect email or password, or this account does not exist.';
+          } else if (err && err.status === 0) {
+            msg = 'Cannot reach the server. Check your connection and try again.';
+          }
           this.message.error(msg, { nzDuration: 6000 });
-          console.error('Login error:', err);
         }
       });
   }

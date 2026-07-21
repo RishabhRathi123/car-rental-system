@@ -43,7 +43,7 @@ export class AuthService {
     };
 
     return this.http.post(`${AUTH_API}/login`, JSON.stringify(payload), { headers })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError((error) => throwError(() => error)));
   }
 
   // ✅ Error handler

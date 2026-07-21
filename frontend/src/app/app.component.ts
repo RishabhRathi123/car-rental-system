@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { StorageService } from './auth/services/storage/storage.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { } from './NzZorroImportsModule'
 
 @Component({
@@ -18,8 +18,9 @@ export class AppComponent {
   
   ngOnInit(){
     this.router.events.subscribe((event) => {
-      if(event.constructor.name === 'NavigationEnd') {
-      this.userName;
+      // Use instanceof (not constructor.name) so this still works after the
+      // production build minifies/mangles class names.
+      if(event instanceof NavigationEnd) {
       this.isCustomerLoggedIn = StorageService.isCustomerLoggedIn();
       this.isAdminLoggedIn = StorageService.isAdminLoggedIn();
     }

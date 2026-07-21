@@ -61,16 +61,16 @@ export class CarSearchComponent implements OnInit {
 }
 
  searchCars(): void {
-  if (!this.latitude || !this.longitude) return;
+  // Use the browser's location if we have it, otherwise fall back to center of India
+  const lat = this.latitude || 20.5937;
+  const lng = this.longitude || 78.9629;
 
   const filters = this.filterForm.value;
-
-  // Convert dates to 'yyyy-MM-dd'
   filters.startDate = new Date(filters.startDate).toISOString().split('T')[0];
   filters.endDate = new Date(filters.endDate).toISOString().split('T')[0];
 
   this.loading = true;
-  this.carService.searchCarsNearby(this.latitude, this.longitude, filters)
+  this.carService.searchCarsNearby(lat, lng, filters)
     .subscribe({
       next: (data: CarResponse[]) => {
         this.cars = data.map(car => ({

@@ -1,0 +1,25 @@
+# Angular
+frontend/node_modules/
+frontend/dist/
+
+# Spring Boot
+backend/target/
+
+# IDE configs
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+
+# Secrets / local env (never commit real credentials)
+.env
+
+# Build artifacts / deps anywhere in the tree
+**/node_modules/
+**/target/
+**/dist/
+**/.angular/
+buildr.log
+install.log
+build.log

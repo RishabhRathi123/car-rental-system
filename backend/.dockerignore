@@ -1,0 +1,27 @@
+# Keep the build context small and clean.
+# The backend folder also contains leftover Angular files; none are needed
+# to build the Spring Boot jar, and node_modules/target are huge.
+node_modules
+target
+dist
+.angular
+*.log
+
+# Leftover Angular tooling that lives in this folder but is unused by Maven
+angular.json
+package.json
+package-lock.json
+tsconfig.app.json
+tsconfig.spec.json
+src/app
+src/environments
+src/main.ts
+src/index.html
+src/styles.scss
+src/theme.less
+src/favicon.ico
+src/assets
+
+.git
+.idea
+.DS_Store

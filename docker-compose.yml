@@ -1,0 +1,59 @@
+# Full stack: MySQL + Spring Boot backend + Angular (nginx) frontend.
+# Start everything with:  docker compose up --build
+# Then open:              http://localhost:8081
+#
+# Values come from the .env file (copy .env.example -> .env first).
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5433:5432"          # host 5433 -> container 5432 (avoids clashing with a local Postgres)
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      RAZORPAY_KEY: ${RAZORPAY_KEY}
+      RAZORPAY_SECRET: ${RAZORPAY_SECRET}
+    ports:
+      - "8080:8080"          # exposed so you can hit the API directly if needed
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Empty -> the app calls /api on its own origin and nginx proxies to
+        # the backend (same-origin, no CORS). Recommended for local.
+        API_URL: ""
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      BACKEND_ORIGIN: http://backend:8080
+    ports:
+      - "8081:80"            # open http://localhost:8081
+
+volumes:
+  db_data:

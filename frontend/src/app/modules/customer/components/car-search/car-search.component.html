@@ -1,0 +1,107 @@
+<div class="search-container">
+
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="search-form">
+    <label>Brand:
+      <select formControlName="brand">
+        <option value="">Any</option>
+        <option *ngFor="let brand of listOfBrands" [value]="brand">{{ brand }}</option>
+      </select>
+    </label>
+
+    <label>Color:
+      <select formControlName="color">
+        <option value="">Any</option>
+        <option *ngFor="let color of listOfColor" [value]="color">{{ color }}</option>
+      </select>
+    </label>
+
+    <label>Transmission:
+      <select formControlName="transmission">
+        <option value="">Any</option>
+        <option *ngFor="let transmission of listOfTransmission" [value]="transmission">{{ transmission }}</option>
+      </select>
+    </label>
+
+    <label>Type:
+      <select formControlName="type">
+        <option value="">Any</option>
+        <option *ngFor="let type of listOfType" [value]="type">{{ type }}</option>
+      </select>
+    </label>
+
+    <label>Radius (km): 
+      <input type="number" formControlName="radius" placeholder="e.g., 50" />
+    </label>
+    <label>Sort By:
+      <select formControlName="sortBy">
+        <option value="distance">Distance (Nearest First)</option>
+        <option value="priceLow">Price (Low to High)</option>
+        <option value="priceHigh">Price (High to Low)</option>
+        <option value="yearNew">Year (Newest First)</option>
+        <option value="yearOld">Year (Oldest First)</option>
+      </select>
+    </label>
+    <label>
+  Start Date:
+  <nz-date-picker 
+    formControlName="startDate" 
+    nzPlaceHolder="Select start date"
+    [nzStatus]="(submitted || filterForm.controls['startDate'].touched) && filterForm.controls['startDate'].invalid ? 'error' : ''">
+  </nz-date-picker>
+  <div class="error" *ngIf="(submitted || filterForm.controls['startDate'].touched) && filterForm.controls['startDate'].invalid">
+    Start date is required
+  </div>
+</label>
+
+<label>
+  End Date:
+  <nz-date-picker 
+    formControlName="endDate" 
+    nzPlaceHolder="Select end date"
+    [nzStatus]="(submitted || filterForm.controls['endDate'].touched) && filterForm.controls['endDate'].invalid ? 'error' : ''">
+  </nz-date-picker>
+  <div class="error" *ngIf="(submitted || filterForm.controls['endDate'].touched) && filterForm.controls['endDate'].invalid">
+    End date is required
+  </div>
+</label>
+
+   <label class="search-button-container">
+      <span style="visibility: hidden;">.</span>
+      <button type="submit" class="search-btn">Search</button>
+    </label>
+  </form>
+
+  <div *ngIf="loading" class="status-message">Loading cars near you...</div>
+  <div *ngIf="!loading && cars.length === 0" class="status-message">No cars found nearby.</div>
+
+  <div *ngFor="let car of cars" class="child">
+    <div class="car-row">
+      <div style="flex: 0 0 200px;">
+        <img class="car-image" [src]="car.processedImg" alt="Car Image" />
+      </div>
+      <div class="car-info">
+        <h2>{{ car.brand }} : {{ car.name }}</h2>
+        <p>{{ car.description }}</p>
+        <hr />
+        <h5>
+          Price : <b>₹{{ car.price }}</b> • Color : <b>{{ car.color }}</b>
+          • Transmission : <b>{{ car.transmission }}</b> • Type : <b>{{ car.type }}</b>
+          • Year : <b>{{ car.year | date: 'yyyy' }}</b>
+        </h5>
+        <p><strong>Available at:</strong> {{ car.centerName }}, {{ car.city }}</p>
+        <hr />
+        <div style="display: flex; justify-content: flex-end; ">
+          <button 
+            nzSize="small" 
+            nz-button 
+            nzType="primary" 
+            class="custom-book-btn" 
+            [routerLink]="['/customer/book', car.id]"
+            [queryParams]="{ startDate: filterForm.value.startDate, endDate: filterForm.value.endDate }">
+            Book Car
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

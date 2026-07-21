@@ -1,0 +1,19 @@
+# Keep the build context small.
+node_modules
+dist
+.angular
+target
+*.log
+
+# Leftover Spring Boot copy that lives in this folder but is unused by the
+# Angular build.
+src/main
+src/test
+pom.xml
+mvnw
+mvnw.cmd
+.mvn
+
+.git
+.idea
+.DS_Store

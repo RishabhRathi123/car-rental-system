@@ -1,0 +1,42 @@
+<div class="bg" style="background-color: #f8f8f8;">
+  <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'" nzTip="Authenticating...">
+    <div class="parent">
+      <div class="child">
+        <div nz-row class="imgDiv">
+          <div nz-col nzSpan="24">
+            <h1 style="margin-left: -1px;">Login</h1>
+          </div>
+        </div>
+
+        <form nz-form [formGroup]="loginForm">
+          <!-- Email Field -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback nzErrorTip="The input is not a valid email!">
+              <input nz-input placeholder="E-mail" id="email" formControlName="email" />
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Password Field -->
+          <nz-form-item>
+            <nz-form-control nzHasFeedback [nzErrorTip]="errorPass">
+              <input nz-input type="password" placeholder="Password" id="password" formControlName="password"/>
+              <ng-template #errorPass let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  Password is Required!
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+
+          <!-- Login Button -->
+          <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" (click)="login()" [disabled]="loginForm.invalid">
+            Login
+          </button>
+
+          <!-- Sign Up Link -->
+          <p>Or <a routerLink="/register">register now!</a></p>
+        </form>
+      </div>
+    </div>
+  </nz-spin>
+</div>

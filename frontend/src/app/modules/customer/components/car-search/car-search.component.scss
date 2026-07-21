@@ -1,0 +1,167 @@
+.search-container {
+  background-color: #f2f5f9;
+  min-height: 91vh;
+  padding: 30px 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.search-form {
+  max-width: 900px;
+  margin: 0 auto 30px auto;
+  background: #ffffff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
+
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+
+    input,
+    select {
+      margin-top: 5px;
+      padding: 8px 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border 0.3s;
+
+      &:focus {
+        outline: none;
+        border-color: #1677ff;
+        box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.2);
+      }
+    }
+  }
+
+  // For ng-zorro date-picker styling
+  nz-date-picker {
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .search-button-container {
+  display: flex;
+  justify-content: center; // center horizontally
+  align-items: center;     // center vertically if needed
+
+  button {
+    width: 70%;
+    padding: 10px 20px;
+    background-color: #1677ff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #105ec9;
+    }
+
+    &:active {
+      background-color: #0a4ca3;
+    }
+  }
+}
+}
+
+.status-message {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #777;
+  margin-top: 30px;
+}
+
+.child {
+  max-width: 900px;
+  margin: 20px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  padding: 25px;
+}
+
+.car-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.car-image {
+  height: 140px;
+  width: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.car-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+h2 {
+  cursor: pointer;
+  color: #1677ff;
+  margin: 0;
+  font-size: 20px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+p {
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+hr {
+  margin: 10px 0;
+  border-color: #eee;
+}
+
+h5 {
+  font-weight: 500;
+  font-size: 14px;
+  color: #444;
+}
+
+.custom-book-btn {
+  background-color: #52a6f4 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px;
+  padding: 8px 20px; // adjust height
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1; // ensures vertical centering
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px; // fixed height for balance
+
+  &:hover {
+    background-color: #1677ff !important;
+  }
+
+  &:active {
+    background-color: #1e7e34 !important;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(72, 180, 97, 0.3) !important;
+  }
+}
+

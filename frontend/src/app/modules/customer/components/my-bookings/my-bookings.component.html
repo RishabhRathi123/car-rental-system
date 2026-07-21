@@ -1,0 +1,45 @@
+<nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'" nzTip="Working...">
+  <nz-table [nzData]="bookings" [nzPageSize]="2" [nzShowPagination]="false">
+    <thead>
+      <tr>
+        <th style="font-weight: bolder; color: #003973; text-align: center;">Car</th>
+        <th style="font-weight: bolder; color: #003973; text-align: center;">Center</th>
+        <th style="font-weight: bolder; color: #003399; text-align: center; width: 150px;">From</th>
+        <th style="font-weight: bolder; color: #003399; text-align: center; width: 150px;">To</th>
+        <th style="font-weight: bolder; color: #003399; text-align: center;">Days</th>
+        <th style="font-weight: bolder; color: #003399; text-align: center;">Price</th>
+        <th style="font-weight: bolder; color: #003399; text-align: center;">Status</th>
+        <th style="font-weight: bolder; color: #003399; text-align: center;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let booking of bookings">
+        <td style="text-align: center;">{{ booking.carBrand }} {{ booking.carName }}</td>
+        <td style="text-align: center;">{{ booking.centerName }} ({{ booking.centerCity }})</td>
+        <td style="text-align: center;">{{ booking.startDate | date: 'MMM d, y' }}</td>
+        <td style="text-align: center;">{{ booking.endDate | date: 'MMM d, y' }}</td>
+        <td style="text-align: center;">{{ booking.days }}</td>
+        <td style="text-align: center;">{{ booking.price }}</td>
+        <td style="text-align: center;">
+          <strong 
+            [ngStyle]="{
+              color: booking.bookCarStatus === 'CONFIRMED' ? 'green' : 
+                     (booking.bookCarStatus === 'REJECTED' ? 'blue' : 'orange')
+            }">
+            {{ booking.bookCarStatus }}
+          </strong>
+        </td>
+        <td style="text-align: center;">
+        <button
+          nz-button
+          nzType="primary"
+          *ngIf="booking.bookCarStatus === 'APPROVED_PENDING_PAYMENT'"
+          (click)="payNow(booking)"
+        >
+          Pay Now
+        </button>
+      </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-spin>

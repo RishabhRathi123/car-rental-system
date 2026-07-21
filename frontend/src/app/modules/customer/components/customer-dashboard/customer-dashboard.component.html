@@ -1,0 +1,47 @@
+<div class="row" *ngIf="bookings.length === 0">
+  <p>No current bookings available.</p>
+</div>
+
+<div *ngFor="let booking of bookings" class="child">
+  <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <!-- Car Image -->
+    <div style="flex: 0 0 200px;">
+      <img class="profile" style="height: 130px; width: 200px; border-radius: 10px;" 
+           [src]="booking.processedImg" alt="Car Image">
+    </div>
+
+    <!-- Booking Details -->
+    <div style="flex: 1;">
+      <h2 style="cursor: pointer; color: #108ee9;">
+        {{ booking.carBrand }} : {{ booking.carName }}
+      </h2>
+      <p>Status: 
+        <strong [style.color]="
+          booking.bookCarStatus === 'CONFIRMED' ? 'green' :
+          booking.bookCarStatus === 'REJECTED' ? 'red' : 'orange'
+        ">
+          {{ booking.bookCarStatus }}
+        </strong>
+      </p>
+
+      <hr>
+      <h5>
+        From: <b>{{ booking.startDate | date: 'MMM d, y' }}</b> 
+        • To: <b>{{ booking.endDate | date: 'MMM d, y' }}</b> 
+        • Days: <b>{{ booking.days }}</b> 
+        • Price: ₹<b>{{ booking.price }}</b>
+      </h5>
+      <div style="display: flex; justify-content: flex-end; margin-top: 10px;">
+    <button 
+      nz-button 
+      nzType="default" 
+      nzDanger 
+      nzSize="small" 
+      (click)="deleteBooking(booking.id)">
+      Delete
+    </button>
+  </div>
+
+    </div>
+  </div>
+</div>

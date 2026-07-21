@@ -1,0 +1,35 @@
+/* app.component.scss */
+
+.custom-navbar {
+  background-color: #52a6f4; // dark navy header
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-title a {
+  font-size: 30px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  color: #ffffff !important;
+  font-weight: 500;
+  font-size: 20px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.nav-links a.active {
+    color: #ffcc00 !important; // Highlight active link with a different color
+}

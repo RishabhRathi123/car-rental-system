@@ -1,0 +1,48 @@
+<div style="background-color: #F8F8F8; min-height: 91vh;" *ngIf="car">
+  <div style="padding-top: 10px;"></div>
+
+  <!-- Car Details Section -->
+  <div style="margin-top:10px;" class="child">
+    <div class="car-row" style="display: flex; flex-wrap: wrap; gap: 20px;">
+      <div style="flex: 0 0 200px;">
+        <img class="profile" style="height: 130px; width: 200px; border-radius: 10px;" [src]="processedImage" alt="profile">
+      </div>
+      <div style="flex: 1;">
+        <h2 style="cursor: pointer; color: #108ee9;">{{car.brand}} : {{car.name}}</h2>
+        <p>{{car.description}}</p>
+        <hr>
+        <h5>
+          Price : <b>${{car.price}}</b> 
+          • Color : <b>{{car.color}}</b> 
+          • Transmission : <b>{{car.transmission}}</b> 
+          • Type : <b>{{car.type}}</b> 
+          • Year : <b>{{car.year | date: 'yyyy'}}</b>
+        </h5>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Form Section -->
+  <nz-spin [nzSpinning]="isSpinning" [nzSize]="'large'" nzTip="Working..." style="margin-top: 50px;">
+    <div class="dashboard-filter">
+      <form [formGroup]="validateForm">
+
+        <!-- Date Fields Row -->
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+          <nz-date-picker formControlName="startDate" nzPlaceHolder="Select Start Date" [nzDisabled]="true"></nz-date-picker>
+<nz-date-picker formControlName="endDate" nzPlaceHolder="Select End Date" [nzDisabled]="true"></nz-date-picker>
+
+        </div>
+
+        <!-- Book Car Button -->
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+          <button nz-button nzType="primary" style="width: 120px;" (click)="bookACar(validateForm.value)">
+            Book Car
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </nz-spin>
+</div>
